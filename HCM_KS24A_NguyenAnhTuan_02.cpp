@@ -1,148 +1,149 @@
 #include <stdio.h>
-#include <math.h>
 
 int main() {
-    int n;
-    printf("Nhap so phan tu cho mang: ");
-    scanf("%d", &n);
+    int arr[100], n = 0, select, value, index;
+    int even = 0, odd = 0;
 
-    int arr[n];
-    printf("Nhap cac gia tri cho mang:\n");
-    for (int i = 0; i < n; i++) {
-        printf("arr[%d] = ", i);
-        scanf("%d", &arr[i]);
-    }
+    while (true) {
+        printf("\n=====================MENU=====================\n");
+        printf("1. Nhap mang va so phan tu			            \n");
+        printf("2. In mang          \n");
+        printf("3. Dem so chan le \n");
+        printf("4. Tim lon thu hai \n");
+        printf("5. Them dau mang\n");
+        printf("6. Xoa phan tu  \n");
+        printf("7. Sap xep giam dan  \n");
+        printf("8. Tim kiem     \n");
+        printf("9. In binh phuong so nguyen to  \n");
+        printf("10. Sap xep Bubble \n");
+        printf("11. Thoat  \n");
+        printf("\nMoi nhap lua chon muon thuc hien: ");
+        scanf("%d", &select);
 
-    printf("\n1. In gia tri cac phan tu trong mang:\n");
-    for (int i = 0; i < n; i++) {
-        printf("arr[%d] = %d\n", i, arr[i]);
-    }
-
-    printf("\n2. Dem so phan tu chan le trong mang:\n");
-    int evenCount = 0, oddCount = 0;
-    for (int i = 0; i < n; i++) {
-        if (arr[i] % 2 == 0) evenCount++;
-        else oddCount++;
-    }
-    printf("So phan tu chan: %d\n", evenCount);
-    printf("So phan tu le: %d\n", oddCount);
-
-    printf("\n3. Tim gia tri lon thu hai trong mang:\n");
-    int max1 = arr[0], max2 = -1;
-    for (int i = 1; i < n; i++) {
-        if (arr[i] > max1) {
-            max2 = max1;
-            max1 = arr[i];
-        } else if (arr[i] > max2 && arr[i] != max1) {
-            max2 = arr[i];
-        }
-    }
-    if (max2 != -1) {
-        printf("Gia tri lon thu hai: %d\n", max2);
-    } else {
-        printf("Khong co gia tri lon thu hai.\n");
-    }
-
-    printf("\n4. Them mot phan tu vao dau mang:\n");
-    int newValue;
-    printf("Nhap gia tri can them: ");
-    scanf("%d", &newValue);
-    for (int i = n; i > 0; i--) {
-        arr[i] = arr[i - 1];
-    }
-    arr[0] = newValue;
-    n++;
-    for (int i = 0; i < n; i++) {
-        printf("arr[%d] = %d\n", i, arr[i]);
-    }
-
-    printf("\n5. Xoa mot phan tu tai vi tri cu the:\n");
-    int deletePos;
-    printf("Nhap vi tri can xoa (1 - %d): ", n);
-    scanf("%d", &deletePos);
-    if (deletePos >= 1 && deletePos <= n) {
-        for (int i = deletePos - 1; i < n - 1; i++) {
-            arr[i] = arr[i + 1];
-        }
-        n--;
-        printf("Mang sau khi xoa:\n");
-        for (int i = 0; i < n; i++) {
-            printf("arr[%d] = %d\n", i, arr[i]);
-        }
-    } else {
-        printf("Vi tri khong hop le.\n");
-    }
-
-    printf("\n6. Sap xep mang theo thu tu giam dan (Insertion Sort):\n");
-    for (int i = 1; i < n; i++) {  
-        int key = arr[i];
-        int j = i - 1;
-        while (j >= 0 && arr[j] < key) {
-            arr[j + 1] = arr[j];
-            j--;
-        }
-        arr[j + 1] = key;
-    }
-    for (int i = 0; i < n; i++) {
-        printf("arr[%d] = %d\n", i, arr[i]);
-    }
-
-    printf("\n7. Tim kiem phan tu bang Binary Search:\n");
-    int searchValue;
-    printf("Nhap gia tri can tim: ");
-    scanf("%d", &searchValue);
-    int left = 0, right = n - 1, found = -1;
-    while (left <= right) {  
-        int mid = (left + right) / 2;
-        if (arr[mid] == searchValue) {
-            found = mid;
-            break;
-        } else if (arr[mid] < searchValue) {
-            right = mid - 1;
-        } else {
-            left = mid + 1;
-        }
-    }
-    if (found != -1) {
-        printf("Tim thay gia tri %d o vi tri %d (sau khi sap xep).\n", searchValue, found + 1);
-    } else {
-        printf("Khong tim thay gia tri %d trong mang.\n", searchValue);
-    }
-
-    printf("\n8. In tat ca so nguyen to trong mang:\n");
-    int primeFound = 0;
-    for (int i = 0; i < n; i++) {
-        int isPrime = 1;
-        if (arr[i] <= 1) isPrime = 0;
-        for (int j = 2; j <= sqrt(arr[i]); j++) {
-            if (arr[i] % j == 0) {
-                isPrime = 0;
-                break;
+		switch (select) {
+        case 1: {
+            printf("Nhap so phan tu: ");
+            scanf("%d", &n);
+            for (int i = 0; i < n; i++) {
+                printf("nhap phan tu arr[%d] = ", i);
+                scanf("%d", &arr[i]);
             }
-        }
-        if (isPrime) {
-            printf("%d ", arr[i]);
-            primeFound = 1;
-        }
-    }
-    if (!primeFound) {
-        printf("Khong co so nguyen to nao trong mang.\n");
-    }
-
-    printf("\n\n9. Sap xep mang theo thu tu giam dan (Bubble Sort):\n");
-    for (int i = 0; i < n - 1; i++) {  
-        for (int j = 0; j < n - i - 1; j++) {
-            if (arr[j] < arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+        break;
+		} case 2: {
+            for (int i = 0; i < n; i++) {
+                printf("arr[%d] = %d, ", i, arr[i]);
             }
+        break;
+		} case 3: {
+            even = 0;
+            odd = 0;
+            for (int i = 0; i < n; i++) {
+                if (arr[i] % 2 == 0) {
+                    even++;
+                } else {
+                    odd++;
+                }
+            }
+            printf("So luong phan tu chan: %d\n", even);
+            printf("So luong phan tu le: %d\n", odd);
+        break;
+		} case 4: {
+             if (n > 1) {
+                int max = arr[0], secondmax = -1;
+                for (int i = 1; i < n; i++) {
+                    if (arr[i] > max) {
+                        secondmax = max;
+                        max = arr[i];
+                    } else if (arr[i] > secondmax && arr[i] != max) {
+                        secondmax = arr[i];
+                    }
+                }
+                printf("Phan tu lon thu hai: %d\n", secondmax);
+            } else {
+                printf("Mang co it hon 2 phan tu.\n");
+            }
+        break;
+		} case 5: {
+            printf("Nhap gia tri: ");
+            scanf("%d", &value);
+            for (int i = n; i > 0; i--) {
+                arr[i] = arr[i - 1];
+            }
+            arr[0] = value;
+            n++;
+        break;
+		} case 6: {
+            printf("Nhap vi tri: ");
+            scanf("%d", &index);
+            if (index >= 0 && index < n) {
+                for (int i = index; i < n - 1; i++) {
+                    arr[i] = arr[i + 1];
+                }
+                n--;
+            } else {
+                printf("Vi tri khong hop le.\n");
+            }
+        break;
+		} case 7: {
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = i + 1; j < n; j++) {
+                    if (arr[i] < arr[j]) {
+                        int temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
+            printf("Da sap xep giam dan(insertion sort).\n");
+        break;
+		} //case 8: 
+		case 9: {
+            int tonTaiSoNguyenTo = 0;
+            for (int i = 0; i < n; i++) {
+                int laSoNguyenTo = 1;
+                if (arr[i] < 2) {
+                    laSoNguyenTo = 0;
+                } else {
+                    for (int j = 2; j * j <= arr[i]; j++) {
+                        if (arr[i] % j == 0) {
+                            laSoNguyenTo = 0;
+                            break;
+                        }
+                    }
+                }
+                if (laSoNguyenTo) {
+                    printf("%d ", arr[i] * arr[i]);
+                    tonTaiSoNguyenTo = 1;
+                }
+            }
+            if (!tonTaiSoNguyenTo) {
+                printf("Khong ton tai so nguyen to.\n");
+            } else {
+                printf("\n");
+            }
+        break;
+		} case 10: {
+            for (int i = 0; i < n - 1; i++) {
+                for (int j = 0; j < n - i - 1; j++) {
+                    if (arr[j] < arr[j + 1]) {
+                        int temp = arr[j];
+                        arr[j] = arr[j + 1];
+                        arr[j + 1] = temp;
+                    }
+                }
+            }
+            printf("Da sap xep giam dan (Bubble).\n");
+        break;
+		} case 11: {
+            printf("Thoat chuong trinh.\n");
+            return 0;
+        break;
+        } default: {
+            printf("Lua chon khong hop le.\n");
+            printf("vui long chon lai (0-11))");
+        break;
         }
     }
-    for (int i = 0; i < n; i++) {
-        printf("arr[%d] = %d\n", i, arr[i]);
-    }
-
-    return 0;
+	}
 }
  
